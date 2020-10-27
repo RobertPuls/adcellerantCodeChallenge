@@ -5,7 +5,11 @@ const resolvers = {
   Query: {
     hello: () => 'Hello world!',
     adData: () => AdDataEntry.find(),
-    adDataBySource: (_, { source }) => AdDataEntry.find({ source }).exec(),
+    adDataBySource: async (_, { source }) => {
+      const data = await AdDataEntry.find({ source }).exec();
+      console.log('stuff', data);
+      return data;
+    },
     adDataByProduct: (_, { product }) => AdDataEntry.find({ product }).exec(),
     totalClicksBySource: async (_, { source }) => {
       let totalClicks = 0;
@@ -27,6 +31,13 @@ const resolvers = {
         $lt: new Date(endDate),
       },
     }),
+    adDataByAll: (_, { startDate, endDate, ...queryParams }) => AdDataEntry.find({
+      ...queryParams,
+      date: {
+        $gte: new Date(startDate),
+        $lt: new Date(endDate),
+      },
+    }).exec(),
   },
   Mutation: {
     createAdDataRecord: (_, {
