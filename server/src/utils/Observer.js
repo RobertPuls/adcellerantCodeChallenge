@@ -7,13 +7,8 @@ const { EventEmitter } = require('events');
 const AdDataParser = require('./AdDataParser');
 
 module.exports = class Observer extends EventEmitter {
-  constructor() {
-    super();
-    // TODO: See if there's a better way
-    // this.targetFile = params;
-  }
-
   // TODO: look at static function and this
+  // eslint-disable-next-line class-methods-use-this
   watchFile(targetFile) {
     try {
       console.log(
