@@ -1,17 +1,20 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
+
 const typeDefs = require('./typeDefs');
 const resolvers = require('./resolvers');
 const Observer = require('./utils/Observer');
+const { fileTypes } = require('./consts/consts');
+
+require('dotenv').config();
 
 const startServer = async () => {
   const app = express();
 
   const server = new ApolloServer({ typeDefs, resolvers });
 
-  // TODO: put in .env file
-  await mongoose.connect('mongodb://localhost/ad-data', {
+  await mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     // TODO: Update .catch to try catch
@@ -22,16 +25,16 @@ const startServer = async () => {
 
   const observer = new Observer();
 
-  // TODO: use enum for AD
-  observer.watchFile('./src/data/adData', 'AD');
-  observer.watchFile('./src/data/productData', 'PRODUCT');
-  observer.watchFile('./src/data/sourceData', 'SOURCE');
+  observer.watchFile('./src/data/adData', fileTypes.AD);
+  observer.watchFile('./src/data/productData', fileTypes.PRODUCT);
+  observer.watchFile('./src/data/sourceData', fileTypes.SOURCE);
 
   server.applyMiddleware({ app });
 
-  app.listen({ port: 4000 }, () => {
+  const port = process.env.PORT || 1337;
+  app.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+    console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
   });
 };
 

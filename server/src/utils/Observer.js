@@ -5,12 +5,12 @@ const path = require('path');
 const { EventEmitter } = require('events');
 
 const DataParser = require('./DataParser');
+const { fileTypes } = require('../consts/consts');
 
 module.exports = class Observer extends EventEmitter {
   // TODO: look at static function and this
   // TODO: rename targetFile to targetDir
   // TODO: find a better way than filetype. Maybe get it from the end of the path.
-  // TODO: use Enums with filetype
   // eslint-disable-next-line class-methods-use-this
   watchFile(targetFile, fileType) {
     try {
@@ -29,11 +29,11 @@ module.exports = class Observer extends EventEmitter {
 
         // TODO: see if you can di this a better way
         // process file
-        if (fileType === 'AD') {
+        if (fileType === fileTypes.AD) {
           DataParser.parseAdFile(filePath);
-        } else if (fileType === 'SOURCE') {
+        } else if (fileType === fileTypes.SOURCE) {
           DataParser.parseSourceFile(filePath);
-        } else if (fileType === 'PRODUCT') {
+        } else if (fileType === fileTypes.PRODUCT) {
           DataParser.parseProductFile(filePath);
         } else {
           console.log('Invalid fileType');

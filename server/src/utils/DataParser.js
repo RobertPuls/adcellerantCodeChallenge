@@ -7,6 +7,7 @@ const AdDataEntry = require('../models/adDataEntry');
 const ProductDataEntry = require('../models/productDataEnrty');
 const SourceDataEntry = require('../models/sourceDataEntry');
 
+// TODO: find better way of doing this without repeating stuff
 module.exports = class DataParser {
   static parseAdFile(targetFile) {
     // derive global per-file variables
