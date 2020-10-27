@@ -1,5 +1,6 @@
 const { gql } = require('apollo-server-express');
 
+// TODO: update everything to get...
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
   scalar Date
@@ -18,6 +19,8 @@ const typeDefs = gql`
       startDate: String!,
       endDate: String!,
     ): [AdDataRecord!]!,
+    getSourceData: [SourceDataRecord!]!,
+    getProductData: [ProductDataRecord!]!
   }
 
   type sourceTotalClicks{
@@ -31,6 +34,16 @@ const typeDefs = gql`
     product: String!,
     clicks: Int!,
     date: Date!
+  }
+
+  type SourceDataRecord {
+    id: ID!,
+    source: String!
+  }
+
+  type ProductDataRecord {
+    id: ID!,
+    product: String!
   }
 
   type Mutation {

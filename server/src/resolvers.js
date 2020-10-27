@@ -1,4 +1,6 @@
 const AdDataEntry = require('./models/adDataEntry');
+const ProductDataEntry = require('./models/productDataEnrty');
+const SourceDataEntry = require('./models/sourceDataEntry');
 
 // Provide resolver functions for your schema fields
 const resolvers = {
@@ -34,6 +36,8 @@ const resolvers = {
         $lt: new Date(endDate),
       },
     }).exec(),
+    getSourceData: () => SourceDataEntry.find(),
+    getProductData: () => ProductDataEntry.find(),
   },
   Mutation: {
     createAdDataRecord: (_, {

@@ -22,7 +22,10 @@ const startServer = async () => {
 
   const observer = new Observer();
 
-  observer.watchFile('./src/data');
+  // TODO: use enum for AD
+  observer.watchFile('./src/data/adData', 'AD');
+  observer.watchFile('./src/data/productData', 'PRODUCT');
+  observer.watchFile('./src/data/sourceData', 'SOURCE');
 
   server.applyMiddleware({ app });
 
