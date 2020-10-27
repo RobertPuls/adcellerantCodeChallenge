@@ -5,11 +5,7 @@ const resolvers = {
   Query: {
     hello: () => 'Hello world!',
     adData: () => AdDataEntry.find(),
-    adDataBySource: async (_, { source }) => {
-      const data = await AdDataEntry.find({ source }).exec();
-      console.log('stuff', data);
-      return data;
-    },
+    adDataBySource: (_, { source }) => AdDataEntry.find({ source }).exec(),
     adDataByProduct: (_, { product }) => AdDataEntry.find({ product }).exec(),
     totalClicksBySource: async (_, { source }) => {
       let totalClicks = 0;
