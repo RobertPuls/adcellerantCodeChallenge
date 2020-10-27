@@ -10,6 +10,7 @@ const startServer = async () => {
 
   const server = new ApolloServer({ typeDefs, resolvers });
 
+  // TODO: put in .env file
   await mongoose.connect('mongodb://localhost/ad-data', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
