@@ -18,9 +18,10 @@ interface Props {
   sources: string[];
   products: string[];
   setSelectedSource: (newSelectedSource: string) => void;
-  setSelectedProduct: (newSelectedSource: string) => void;
-  setSelectedStartDate: (newSelectedSource: string) => void;
-  setSelectedEndDate: (newSelectedSource: string) => void;
+  setSelectedProduct: (newSelectedProduct: string) => void;
+  setSelectedStartDate: (newSelectedStartDate: string) => void;
+  setSelectedEndDate: (newSelectedEndDate: string) => void;
+  setSortBy: (newSortBy: string) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,8 +53,11 @@ const Header = ({
   setSelectedProduct,
   setSelectedStartDate,
   setSelectedEndDate,
+  setSortBy,
 }: Props) => {
   const classes = useStyles();
+
+  console.log(setSortBy);
 
   const handleSourceChange = (event: React.ChangeEvent<{ value: string }>): void => {
     setSelectedSource(event.target.value);

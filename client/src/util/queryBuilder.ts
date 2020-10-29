@@ -3,6 +3,7 @@ interface Props {
   selectedEndDate: string;
   selectedSource: string;
   selectedProduct: string;
+  sortBy: string;
 }
 
 const queryBuilder = ({
@@ -10,10 +11,12 @@ const queryBuilder = ({
   selectedEndDate,
   selectedSource,
   selectedProduct,
+  sortBy,
 }: Props) => (
   `{
     adDataByAll(startDate: "${selectedStartDate}",
     endDate: "${selectedEndDate}",
+    sortBy: "${sortBy.toLowerCase()}"
     ${selectedSource !== 'All'
     ? `source: "${selectedSource}"`
     : ''},
