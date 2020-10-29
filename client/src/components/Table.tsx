@@ -14,6 +14,7 @@ interface AdData {
   source: string;
   product: string;
   clicks: number;
+  id: string;
 }
 
 interface Props {
@@ -44,7 +45,7 @@ const DataTable = ({ clickData }: Props) => {
         </TableHead>
         <TableBody>
           {clickData.map((row: AdData) => (
-            <TableRow key={`${row.date} ${row.source} ${row.product}`}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {formatDate(row.date)}
               </TableCell>
@@ -58,5 +59,40 @@ const DataTable = ({ clickData }: Props) => {
     </TableContainer>
   );
 };
+
+// class DataTable extends React.PureComponent<Props> {
+//   render() {
+//     const { clickData } = this.props;
+//     return (
+//       <TableContainer component={Paper}>
+//         <Table size="small" aria-label="data table">
+//           <TableHead>
+//             <TableRow>
+//               <TableCell>Date</TableCell>
+//               <TableCell align="center">Ad Source</TableCell>
+//               <TableCell align="right">Product</TableCell>
+//               <TableCell align="right">Clicks</TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {clickData.map((row: AdData) => {
+//               console.log('row', row);
+//               return (
+//                 <TableRow key={`${row.date} ${row.source} ${row.product}`}>
+//                   <TableCell component="th" scope="row">
+//                     {formatDate(row.date)}
+//                   </TableCell>
+//                   <TableCell align="center">{row.source}</TableCell>
+//                   <TableCell align="right">{row.product}</TableCell>
+//                   <TableCell align="right">{row.clicks}</TableCell>
+//                 </TableRow>
+//               );
+//             })}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+//     );
+//   }
+// }
 
 export default DataTable;

@@ -26,7 +26,8 @@ const queryBuilder = ({
       source,
       clicks,
       date,
-      product
+      product,
+      id
     }
   }`
 );
