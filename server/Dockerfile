@@ -1,14 +1,14 @@
 FROM node:12.19.0-alpine
 
-RUN mkdir -p /app/src
+RUN mkdir -p /app/server/src
 
-WORKDIR /app/src
+WORKDIR /app/server/src
 
-COPY package.json .
+COPY ./server/package.json .
 
 RUN npm install
 
-COPY . .
+COPY ./server .
 
 EXPOSE 4000
 
