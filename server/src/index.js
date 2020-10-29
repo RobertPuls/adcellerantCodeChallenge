@@ -1,6 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const typeDefs = require('./typeDefs');
 const resolvers = require('./resolvers');
@@ -11,6 +12,10 @@ require('dotenv').config();
 
 const startServer = async () => {
   const app = express();
+
+  app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+  }));
 
   const server = new ApolloServer({ typeDefs, resolvers });
 
