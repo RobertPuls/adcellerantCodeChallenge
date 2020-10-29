@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: graphql-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - mongo
+    ports:
+      - '0.0.0.0:4000:4000'
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb://mongo:27017/ad-data
+      - PORT=4000
+      - CORS_ORIGIN=http://localhost:3000
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - '27017:27017'
