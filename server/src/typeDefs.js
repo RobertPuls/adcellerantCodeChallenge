@@ -18,6 +18,7 @@ const typeDefs = gql`
       product: String,
       startDate: String!,
       endDate: String!,
+      sortBy: String!,
     ): [AdDataRecord!]!,
     getSourceData: [SourceDataRecord!]!,
     getProductData: [ProductDataRecord!]!
