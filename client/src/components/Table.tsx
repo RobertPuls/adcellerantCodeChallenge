@@ -10,10 +10,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 interface AdData {
-  date: 'string';
-  source: 'string';
-  product: 'string';
-  clicks: 'int';
+  date: string;
+  source: string;
+  product: string;
+  clicks: number;
 }
 
 interface Props {

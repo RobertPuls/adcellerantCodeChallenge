@@ -16,6 +16,9 @@ interface Product {
   product: string;
 }
 
+// eslint-disable-next-line no-restricted-globals
+const isValidDate = (date: string) => !isNaN(Date.parse(date));
+
 const App = () => {
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedProduct, setSelectedProduct] = useState('');
@@ -60,12 +63,15 @@ const App = () => {
   }, []);
 
   useLayoutEffect(() => {
-    getClickData();
+    if (isValidDate(selectedStartDate) && isValidDate(selectedEndDate)) {
+      getClickData();
+    }
   }, [
     selectedSource,
     selectedProduct,
     selectedEndDate,
     selectedEndDate,
+    sortBy,
   ]);
 
   return (
@@ -81,6 +87,7 @@ const App = () => {
         products={products}
         selectedEndDate={selectedEndDate}
         setSelectedEndDate={setSelectedEndDate}
+        sortBy={sortBy}
         setSortBy={setSortBy}
       />
       <Table

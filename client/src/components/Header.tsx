@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import DropDown from './DropDown';
+import sortByOptions from '../consts';
 
 interface Props {
   selectedSource: string;
@@ -17,6 +18,7 @@ interface Props {
   selectedEndDate: string;
   sources: string[];
   products: string[];
+  sortBy: string;
   setSelectedSource: (newSelectedSource: string) => void;
   setSelectedProduct: (newSelectedProduct: string) => void;
   setSelectedStartDate: (newSelectedStartDate: string) => void;
@@ -49,6 +51,7 @@ const Header = ({
   selectedEndDate,
   sources,
   products,
+  sortBy,
   setSelectedSource,
   setSelectedProduct,
   setSelectedStartDate,
@@ -56,8 +59,6 @@ const Header = ({
   setSortBy,
 }: Props) => {
   const classes = useStyles();
-
-  console.log(setSortBy);
 
   const handleSourceChange = (event: React.ChangeEvent<{ value: string }>): void => {
     setSelectedSource(event.target.value);
@@ -75,6 +76,10 @@ const Header = ({
     setSelectedEndDate(event.target.value);
   };
 
+  const handleSortByChange = (event: React.ChangeEvent<{ value: string }>): void => {
+    setSortBy(event.target.value);
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -84,6 +89,15 @@ const Header = ({
           </Typography>
           <div id="filterContainer" className={classes.filterContainer}>
             <div id="dropDownContainer">
+              <DropDown
+                defaultValue="Date"
+                handleOnChange={handleSortByChange}
+                label="Sort By"
+                labelId="sort-by-label"
+                menuItems={sortByOptions}
+                selectId="sort-by"
+                value={sortBy}
+              />
               <DropDown
                 defaultValue="All"
                 handleOnChange={handleSourceChange}
