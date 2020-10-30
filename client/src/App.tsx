@@ -5,10 +5,11 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import Table from './components/Table';
-import BarChart from './components/BarChart';
+import ChartsContainer from './components/ChartsContainer';
 import queryBuilder from './util/queryBuilder';
 import fetcher from './util/fetcher';
 import { sourcesQuery, productsQuery } from './queries';
+import { isValidDate } from './util/helpers';
 
 interface Source {
   source: string;
@@ -24,8 +25,6 @@ const useStyles = makeStyles({
   },
 });
 
-// eslint-disable-next-line no-restricted-globals
-const isValidDate = (date: string) => !isNaN(Date.parse(date));
 // TODO: check scoping on all functions
 const App = () => {
   const [selectedSource, setSelectedSource] = useState('');
@@ -56,7 +55,7 @@ const App = () => {
     setSelectedProduct(allProducts[0]);
     setProducts(allProducts);
   };
-
+  // Make this paginated call
   const getClickData = async () => {
     const query = queryBuilder({
       selectedSource,
@@ -79,11 +78,11 @@ const App = () => {
       getClickData();
     }
   }, [
+    selectedView,
     selectedSource,
     selectedProduct,
     selectedEndDate,
     selectedEndDate,
-    sortBy,
   ]);
 
   return (
@@ -107,7 +106,15 @@ const App = () => {
       <div className={classes.container}>
         {selectedView === 'Logs'
           ? <Table clickData={clickData} />
-          : <BarChart />}
+          : (
+            <ChartsContainer
+              sources={sources}
+              selectedEndDate={selectedEndDate}
+              selectedProduct={selectedProduct}
+              selectedSource={selectedSource}
+              selectedStartDate={selectedStartDate}
+            />
+          )}
       </div>
     </div>
   );

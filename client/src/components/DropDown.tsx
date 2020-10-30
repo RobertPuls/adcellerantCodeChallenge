@@ -8,6 +8,18 @@ import {
   Select,
 } from '@material-ui/core';
 
+interface Props {
+  label: string;
+  labelId: string;
+  selectId: string;
+  defaultValue: string;
+  value: string;
+  menuItems: string[];
+  // TODO: figure this out
+  // eslint-disable-next-line no-unused-vars
+  handleOnChange: (event: React.ChangeEvent<{ value: any | string }>) => void;
+}
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     color: 'white',
@@ -39,27 +51,17 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const DropDown = (props: {
-  label: string;
-  labelId: string;
-  selectId: string;
-  defaultValue: string;
-  value: string;
-  menuItems: string[];
+const DropDown = ({
+  label,
+  labelId,
+  selectId,
+  defaultValue,
+  value,
+  menuItems,
   // TODO: figure this out
   // eslint-disable-next-line no-unused-vars
-  handleOnChange(event: React.ChangeEvent<{ value: unknown }>): void;
-}) => {
-  const {
-    label,
-    labelId,
-    selectId,
-    defaultValue,
-    value,
-    menuItems,
-    handleOnChange,
-  } = props;
-
+  handleOnChange,
+}: Props) => {
   const classes = useStyles();
   return (
     <FormControl className={classes.formControl}>
