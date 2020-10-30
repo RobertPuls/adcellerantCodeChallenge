@@ -2,8 +2,10 @@
 // TODO: fix this
 // eslint-disable-next-line no-use-before-define
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import Table from './components/Table';
+import BarChart from './components/BarChart';
 import queryBuilder from './util/queryBuilder';
 import fetcher from './util/fetcher';
 import { sourcesQuery, productsQuery } from './queries';
@@ -16,9 +18,15 @@ interface Product {
   product: string;
 }
 
+const useStyles = makeStyles({
+  container: {
+    padding: '3rem',
+  },
+});
+
 // eslint-disable-next-line no-restricted-globals
 const isValidDate = (date: string) => !isNaN(Date.parse(date));
-
+// TODO: check scoping on all functions
 const App = () => {
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedProduct, setSelectedProduct] = useState('');
@@ -27,7 +35,11 @@ const App = () => {
   const [sources, setSources] = useState([]);
   const [products, setProducts] = useState([]);
   const [clickData, setClickData] = useState([]);
+  // TODO: put strings in const file
   const [sortBy, setSortBy] = useState('Date');
+  const [selectedView, setSelectedView] = useState('Logs');
+
+  const classes = useStyles();
 
   const getSources = async () => {
     let allSources = await fetcher(sourcesQuery);
@@ -89,10 +101,14 @@ const App = () => {
         setSelectedEndDate={setSelectedEndDate}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        selectedView={selectedView}
+        setSelectedView={setSelectedView}
       />
-      <Table
-        clickData={clickData}
-      />
+      <div className={classes.container}>
+        {selectedView === 'Logs'
+          ? <Table clickData={clickData} />
+          : <BarChart />}
+      </div>
     </div>
   );
 };
