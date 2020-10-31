@@ -3,7 +3,7 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import BarChart from './BarChart';
-import queryBuilder from '../util/queryBuilder';
+import { queryBuilder } from '../util/queryBuilder';
 import fetcher from '../util/fetcher';
 import {
   buildAdDataByKey,

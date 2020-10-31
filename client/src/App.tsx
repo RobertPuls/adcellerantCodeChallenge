@@ -2,14 +2,16 @@
 // TODO: fix this
 // eslint-disable-next-line no-use-before-define
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import Table from './components/Table';
 import ChartsContainer from './components/ChartsContainer';
-import queryBuilder from './util/queryBuilder';
+import { queryBuilderPag } from './util/queryBuilder';
 import fetcher from './util/fetcher';
 import { sourcesQuery, productsQuery } from './queries';
 import { isValidDate } from './util/helpers';
+import { limit } from './consts';
 
 interface Source {
   source: string;
@@ -23,6 +25,21 @@ const useStyles = makeStyles({
   container: {
     padding: '3rem',
   },
+  buttonContainer: {
+    'margin-top': '1rem',
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
+  prevBotton: {
+    'margin-right': '1rem',
+    color: 'white',
+    'background-color': '#3f51b5',
+  },
+  nextBotton: {
+    color: 'white',
+    'background-color': '#3f51b5',
+  },
 });
 
 // TODO: check scoping on all functions
@@ -34,6 +51,7 @@ const App = () => {
   const [sources, setSources] = useState([]);
   const [products, setProducts] = useState([]);
   const [clickData, setClickData] = useState([]);
+  const [offset, setOffset] = useState(0);
   // TODO: put strings in const file
   const [sortBy, setSortBy] = useState('Date');
   const [selectedView, setSelectedView] = useState('Logs');
@@ -57,15 +75,18 @@ const App = () => {
   };
   // Make this paginated call
   const getClickData = async () => {
-    const query = queryBuilder({
+    console.log('offset', offset);
+    const query = queryBuilderPag({
       selectedSource,
       selectedProduct,
       selectedEndDate,
       selectedStartDate,
       sortBy,
+      offset,
+      limit,
     });
     const adData = await fetcher(query);
-    setClickData(adData.adDataByAll);
+    setClickData(adData.adDataByAllPag);
   };
 
   useEffect(() => {
@@ -83,6 +104,7 @@ const App = () => {
     selectedProduct,
     selectedEndDate,
     selectedEndDate,
+    offset,
   ]);
 
   return (
@@ -105,7 +127,42 @@ const App = () => {
       />
       <div className={classes.container}>
         {selectedView === 'Logs'
-          ? <Table clickData={clickData} />
+          ? (
+            <div>
+              <Table clickData={clickData} />
+              <div className={classes.buttonContainer}>
+                {offset !== 0
+                  ? (
+                    <div>
+                      <Button
+                        className={classes.prevBotton}
+                        onClick={() => setOffset(offset - limit)}
+                        variant="contained"
+                      >
+                        Prev
+                      </Button>
+                      {/* TODO: don't repeat this button */}
+                      <Button
+                        className={classes.nextBotton}
+                        onClick={() => setOffset(offset + limit)}
+                        variant="contained"
+                      >
+                        Next
+                      </Button>
+                    </div>
+                  )
+                  : (
+                    <Button
+                      className={classes.nextBotton}
+                      onClick={() => setOffset(offset + limit)}
+                      variant="contained"
+                    >
+                      Next
+                    </Button>
+                  )}
+              </div>
+            </div>
+          )
           : (
             <ChartsContainer
               sources={sources}
