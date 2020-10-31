@@ -31,6 +31,8 @@
 - Use sass or css modules instead of makeStyle
 - Cleanup TODOs scattered around project
 - Validate the end date is always after the start date
+- Make docker profiles for local dev.
+  - For local dev share npm packages, could also make everything build at once instead of one at a time like docker compose.
 
 ## Bugs
 
