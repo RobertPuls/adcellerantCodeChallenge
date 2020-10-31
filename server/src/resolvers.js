@@ -1,7 +1,7 @@
 const AdDataEntry = require('./models/adDataEntry');
 const ProductDataEntry = require('./models/productDataEnrty');
 const SourceDataEntry = require('./models/sourceDataEntry');
-const sortByOrder = require('./utils/sortByOrder');
+const { sortByOrder, getTommorow } = require('./utils/utils');
 
 // Provide resolver functions for your schema fields
 const resolvers = {
@@ -30,6 +30,22 @@ const resolvers = {
         $lt: new Date(endDate),
       },
     }),
+    adDataByAllPag: (_, {
+      startDate,
+      endDate,
+      sortBy,
+      offset,
+      limit,
+      ...queryParams
+    }) => AdDataEntry.find({
+      ...queryParams,
+      date: {
+        $gte: new Date(startDate),
+        $lt: getTommorow(endDate),
+      },
+    }).skip(offset).limit(limit)
+      .sort(sortByOrder(sortBy))
+      .exec(),
     adDataByAll: (_, {
       startDate,
       endDate,
@@ -39,9 +55,10 @@ const resolvers = {
       ...queryParams,
       date: {
         $gte: new Date(startDate),
-        $lt: new Date(endDate),
+        $lt: getTommorow(endDate),
       },
-    }).sort(sortByOrder(sortBy)).exec(),
+    }).sort(sortByOrder(sortBy))
+      .exec(),
     getSourceData: () => SourceDataEntry.find().sort({ source: 1 }),
     // getSourceData: async () => {
     //   const sources = await SourceDataEntry.find();

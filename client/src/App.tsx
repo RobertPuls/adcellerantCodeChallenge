@@ -1,12 +1,16 @@
 // TODO: add types to everything
-// TODO: fix this
 // eslint-disable-next-line no-use-before-define
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import Table from './components/Table';
-import queryBuilder from './util/queryBuilder';
+import ChartsContainer from './components/ChartsContainer';
+import { queryBuilderPag } from './util/queryBuilder';
 import fetcher from './util/fetcher';
 import { sourcesQuery, productsQuery } from './queries';
+import { isValidDate } from './util/helpers';
+import { limit } from './consts';
 
 interface Source {
   source: string;
@@ -16,8 +20,26 @@ interface Product {
   product: string;
 }
 
-// eslint-disable-next-line no-restricted-globals
-const isValidDate = (date: string) => !isNaN(Date.parse(date));
+const useStyles = makeStyles({
+  container: {
+    padding: '3rem',
+  },
+  buttonContainer: {
+    'margin-top': '1rem',
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
+  prevBotton: {
+    'margin-right': '1rem',
+    color: 'white',
+    'background-color': '#3f51b5',
+  },
+  nextBotton: {
+    color: 'white',
+    'background-color': '#3f51b5',
+  },
+});
 
 const App = () => {
   const [selectedSource, setSelectedSource] = useState('');
@@ -27,7 +49,12 @@ const App = () => {
   const [sources, setSources] = useState([]);
   const [products, setProducts] = useState([]);
   const [clickData, setClickData] = useState([]);
+  const [offset, setOffset] = useState(0);
+  // TODO: put strings in const file
   const [sortBy, setSortBy] = useState('Date');
+  const [selectedView, setSelectedView] = useState('Logs');
+
+  const classes = useStyles();
 
   const getSources = async () => {
     let allSources = await fetcher(sourcesQuery);
@@ -44,17 +71,20 @@ const App = () => {
     setSelectedProduct(allProducts[0]);
     setProducts(allProducts);
   };
-
+  // Make this paginated call
   const getClickData = async () => {
-    const query = queryBuilder({
+    console.log('offset', offset);
+    const query = queryBuilderPag({
       selectedSource,
       selectedProduct,
       selectedEndDate,
       selectedStartDate,
       sortBy,
+      offset,
+      limit,
     });
     const adData = await fetcher(query);
-    setClickData(adData.adDataByAll);
+    setClickData(adData.adDataByAllPag);
   };
 
   useEffect(() => {
@@ -67,11 +97,12 @@ const App = () => {
       getClickData();
     }
   }, [
+    selectedView,
     selectedSource,
     selectedProduct,
     selectedEndDate,
     selectedEndDate,
-    sortBy,
+    offset,
   ]);
 
   return (
@@ -89,10 +120,58 @@ const App = () => {
         setSelectedEndDate={setSelectedEndDate}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        selectedView={selectedView}
+        setSelectedView={setSelectedView}
       />
-      <Table
-        clickData={clickData}
-      />
+      <div className={classes.container}>
+        {selectedView === 'Logs'
+          ? (
+            <div>
+              <Table clickData={clickData} />
+              <div className={classes.buttonContainer}>
+                {offset !== 0
+                  ? (
+                    <div>
+                      <Button
+                        className={classes.prevBotton}
+                        onClick={() => setOffset(offset - limit)}
+                        variant="contained"
+                      >
+                        Prev
+                      </Button>
+                      {/* TODO: don't repeat this button */}
+                      <Button
+                        className={classes.nextBotton}
+                        onClick={() => setOffset(offset + limit)}
+                        variant="contained"
+                      >
+                        Next
+                      </Button>
+                    </div>
+                  )
+                  : (
+                    <Button
+                      className={classes.nextBotton}
+                      onClick={() => setOffset(offset + limit)}
+                      variant="contained"
+                    >
+                      Next
+                    </Button>
+                  )}
+              </div>
+            </div>
+          )
+          : (
+            <ChartsContainer
+              sources={sources}
+              products={products}
+              selectedEndDate={selectedEndDate}
+              selectedProduct={selectedProduct}
+              selectedSource={selectedSource}
+              selectedStartDate={selectedStartDate}
+            />
+          )}
+      </div>
     </div>
   );
 };

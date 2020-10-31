@@ -20,6 +20,15 @@ const typeDefs = gql`
       endDate: String!,
       sortBy: String!,
     ): [AdDataRecord!]!,
+    adDataByAllPag(
+      source: String,
+      product: String,
+      startDate: String!,
+      endDate: String!,
+      sortBy: String!,
+      limit: Int!,
+      offset: Int!,
+    ): [AdDataRecord!]!,
     getSourceData: [SourceDataRecord!]!,
     getProductData: [ProductDataRecord!]!
   }

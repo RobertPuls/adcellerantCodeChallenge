@@ -8,7 +8,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { formatDate } from '../util/helpers';
 
+// TODO: put this in types file because it's shared
 interface AdData {
   date: string;
   source: string;
@@ -26,8 +28,6 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-
-const formatDate = (date: string) => date.split('T')[0];
 
 const DataTable = ({ clickData }: Props) => {
   const classes = useStyles();

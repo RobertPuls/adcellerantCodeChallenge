@@ -1,3 +1,4 @@
-const sortByOptions = ['Date', 'Source', 'Product', 'Clicks'];
+/* eslint-disable import/prefer-default-export */
+export const sortByOptions = ['Date', 'Source', 'Product', 'Clicks'];
 
-export default sortByOptions;
+export const limit = 30;

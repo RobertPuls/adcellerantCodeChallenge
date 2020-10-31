@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import DropDown from './DropDown';
-import sortByOptions from '../consts';
+import { sortByOptions } from '../consts';
 
 interface Props {
   selectedSource: string;
@@ -19,11 +19,13 @@ interface Props {
   sources: string[];
   products: string[];
   sortBy: string;
+  selectedView: string;
   setSelectedSource: (newSelectedSource: string) => void;
   setSelectedProduct: (newSelectedProduct: string) => void;
   setSelectedStartDate: (newSelectedStartDate: string) => void;
   setSelectedEndDate: (newSelectedEndDate: string) => void;
   setSortBy: (newSortBy: string) => void;
+  setSelectedView: (newView: string) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,11 +54,13 @@ const Header = ({
   sources,
   products,
   sortBy,
+  selectedView,
   setSelectedSource,
   setSelectedProduct,
   setSelectedStartDate,
   setSelectedEndDate,
   setSortBy,
+  setSelectedView,
 }: Props) => {
   const classes = useStyles();
 
@@ -80,6 +84,10 @@ const Header = ({
     setSortBy(event.target.value);
   };
 
+  const handleViewChange = (event: React.ChangeEvent<{ value: string }>): void => {
+    setSelectedView(event.target.value);
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -89,6 +97,15 @@ const Header = ({
           </Typography>
           <div id="filterContainer" className={classes.filterContainer}>
             <div id="dropDownContainer">
+              <DropDown
+                defaultValue="Logs"
+                handleOnChange={handleViewChange}
+                label="View"
+                labelId="select-view-label"
+                menuItems={['Logs', 'Charts']}
+                selectId="select-view"
+                value={selectedView}
+              />
               <DropDown
                 defaultValue="Date"
                 handleOnChange={handleSortByChange}

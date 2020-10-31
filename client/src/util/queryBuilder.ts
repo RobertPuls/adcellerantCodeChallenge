@@ -4,9 +4,11 @@ interface Props {
   selectedSource: string;
   selectedProduct: string;
   sortBy: string;
+  limit?: number;
+  offset?: number;
 }
 
-const queryBuilder = ({
+export const queryBuilder = ({
   selectedStartDate,
   selectedEndDate,
   selectedSource,
@@ -17,6 +19,36 @@ const queryBuilder = ({
     adDataByAll(startDate: "${selectedStartDate}",
     endDate: "${selectedEndDate}",
     sortBy: "${sortBy.toLowerCase()}"
+    ${selectedSource !== 'All'
+    ? `source: "${selectedSource}"`
+    : ''},
+    ${selectedProduct !== 'All'
+    ? `product: "${selectedProduct}"`
+    : ''}) {
+      source,
+      clicks,
+      date,
+      product,
+      id
+    }
+  }`
+);
+
+export const queryBuilderPag = ({
+  selectedStartDate,
+  selectedEndDate,
+  selectedSource,
+  selectedProduct,
+  sortBy,
+  limit,
+  offset,
+}: Props) => (
+  `{
+    adDataByAllPag(startDate: "${selectedStartDate}",
+    endDate: "${selectedEndDate}",
+    sortBy: "${sortBy.toLowerCase()}",
+    limit: ${limit},
+    offset: ${offset},
     ${selectedSource !== 'All'
     ? `source: "${selectedSource}"`
     : ''},
