@@ -1,22 +1,27 @@
-### New Features
+## New Features
 
-## Big
+### Big
 
 - Make a mircoservice that uses evenets to get data files and send them to db
 - Make top performes charts (by product & by source)
 - Replace product and source dropdown with searchbars
   - Serve suggestions and autocomplete to searchbars
   - Multiselect with search
+  - Validate input
 - Make "byProduct" charts (only bySource right now)
 - Structure data(in backend) into a dictionary to make it easier & more effectient on frontend
--
+- Add trends/averages charts
 
-## Small
+### Small
 
 - Highlight correlating bars on/between charts
 - Give charts better styles
+- Add update & delete endpoint
 
-### Tasks
+## Tasks
 
-- Clean up / refactor
+- Cleanup/refactor
+- Cleanup unused queries/routes(graphQL) in backend
 - Add cypress and jest testing
+- Validate & remove date(look for dublicates & incorrectly formated/missing)
+- More validation in general

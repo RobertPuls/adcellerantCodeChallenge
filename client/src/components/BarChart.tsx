@@ -31,6 +31,7 @@ const BarChart = ({ dateRange, products, adData }: Props) => {
           let clicks = 0;
           adData.forEach((ad: AdData) => {
             if (ad.product === product && ad.date === date) {
+              console.log('ad', ad);
               clicks += ad.clicks;
             }
           });
@@ -45,10 +46,6 @@ const BarChart = ({ dateRange, products, adData }: Props) => {
     setAdDataByDate(
       buildAdDataByKey(dateRange, adData, 'date'),
     );
-    setGraphData({
-      labels: dateRange,
-      datasets: buildDataSets(),
-    });
   }, [adData]);
 
   useLayoutEffect(() => {
