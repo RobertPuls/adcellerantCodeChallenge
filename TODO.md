@@ -25,3 +25,8 @@
 - Add cypress and jest testing
 - Validate & remove date(look for dublicates & incorrectly formated/missing)
 - More validation in general
+- Add error handling to fetch call
+- Add types everywhere
+- Move types into interfaces file
+- Use sass or css modules instead of makeStyle
+- Cleanup TODOs scattered around project
