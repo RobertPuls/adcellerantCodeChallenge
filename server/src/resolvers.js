@@ -12,7 +12,6 @@ const resolvers = {
     adDataByProduct: (_, { product }) => AdDataEntry.find({ product }).exec(),
     totalClicksBySource: async (_, { source }) => {
       let totalClicks = 0;
-      // TODO: Rename
       const adDataBySource = await AdDataEntry.find({ source }, 'clicks').exec();
       adDataBySource.forEach((adData) => {
         totalClicks += adData.clicks;
@@ -60,11 +59,6 @@ const resolvers = {
     }).sort(sortByOrder(sortBy))
       .exec(),
     getSourceData: () => SourceDataEntry.find().sort({ source: 1 }),
-    // getSourceData: async () => {
-    //   const sources = await SourceDataEntry.find();
-    //   console.log('sources', sources.map((source) => source.source));
-    //   return sources.map((source) => source.source);
-    // },
     getProductData: () => ProductDataEntry.find().sort({ product: 1 }),
   },
   Mutation: {

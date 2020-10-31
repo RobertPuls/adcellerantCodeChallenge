@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-use-before-define
 import React, { useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,7 +21,7 @@ interface Props {
   selectedStartDate: string;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   chartWrapper: {
     display: 'flex',
     'flex-direction': 'column',

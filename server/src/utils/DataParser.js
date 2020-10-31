@@ -62,9 +62,6 @@ module.exports = class DataParser {
           csvData.shift();
 
           csvData.forEach(async (row) => {
-            // todo: this works with sample data...
-            // a more scalable solution would be to provide a UI
-            // and the ability for maps of file definitions
             const source = row[0];
 
             const sourceDataEntry = new SourceDataEntry({
@@ -97,9 +94,6 @@ module.exports = class DataParser {
           csvData.shift();
 
           csvData.forEach(async (row) => {
-            // todo: this works with sample data...
-            // a more scalable solution would be to provide a UI
-            // and the ability for maps of file definitions
             const product = row[0];
 
             const productDataEntry = new ProductDataEntry({

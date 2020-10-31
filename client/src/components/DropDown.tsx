@@ -33,22 +33,6 @@ const useStyles = makeStyles((theme) => ({
   whiteText: {
     color: 'white !important',
   },
-  // TODO try to get this working instead of !important
-  // overrides: {
-  //   MuiFormLabel: {
-  //     root: {
-  //       '&$focused': {
-  //         color: 'white',
-  //         // fontWeight: 'bold',
-  //       },
-  //     },
-
-  //     focused: {
-  //       color: 'white',
-  //     },
-  //   },
-  // },
-
 }));
 
 const DropDown = ({
@@ -58,8 +42,6 @@ const DropDown = ({
   defaultValue,
   value,
   menuItems,
-  // TODO: figure this out
-  // eslint-disable-next-line no-unused-vars
   handleOnChange,
 }: Props) => {
   const classes = useStyles();

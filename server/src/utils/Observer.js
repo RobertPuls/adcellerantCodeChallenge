@@ -8,16 +8,13 @@ const DataParser = require('./DataParser');
 const { fileTypes } = require('../consts/consts');
 
 module.exports = class Observer extends EventEmitter {
-  // TODO: look at static function and this
-  // TODO: rename targetFile to targetDir
-  // TODO: find a better way than filetype. Maybe get it from the end of the path.
   // eslint-disable-next-line class-methods-use-this
-  watchFile(targetFile, fileType) {
+  watchFile(targetDir, fileType) {
     try {
       console.log(
-        `[${new Date().toLocaleString()}] Watching for file changes on: ${targetFile}`,
+        `[${new Date().toLocaleString()}] Watching for file changes on: ${targetDir}`,
       );
-      const watcher = chokidar.watch(targetFile, {
+      const watcher = chokidar.watch(targetDir, {
         persistent: true,
         // depth: 0,
       });
@@ -27,7 +24,7 @@ module.exports = class Observer extends EventEmitter {
         const filename = path.basename(filePath);
         const directory = path.dirname(filePath);
 
-        // TODO: see if you can di this a better way
+        // TODO: see if you can do this a better way
         // process file
         if (fileType === fileTypes.AD) {
           DataParser.parseAdFile(filePath);

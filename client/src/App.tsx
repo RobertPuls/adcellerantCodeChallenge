@@ -73,7 +73,6 @@ const App = () => {
   };
   // Make this paginated call
   const getClickData = async () => {
-    console.log('offset', offset);
     const query = queryBuilderPag({
       selectedSource,
       selectedProduct,
@@ -97,6 +96,7 @@ const App = () => {
       getClickData();
     }
   }, [
+    sortBy,
     selectedView,
     selectedSource,
     selectedProduct,
@@ -129,6 +129,7 @@ const App = () => {
             <div>
               <Table clickData={clickData} />
               <div className={classes.buttonContainer}>
+                {/* eslint-disable-next-line no-nested-ternary */}
                 {offset !== 0
                   ? (
                     <div>
@@ -149,15 +150,19 @@ const App = () => {
                       </Button>
                     </div>
                   )
-                  : (
-                    <Button
-                      className={classes.nextBotton}
-                      onClick={() => setOffset(offset + limit)}
-                      variant="contained"
-                    >
-                      Next
-                    </Button>
-                  )}
+                  // TODO: find a better way than nested ternary
+                  // TODO: put this in a boolean
+                  : clickData.length === limit
+                    ? (
+                      <Button
+                        className={classes.nextBotton}
+                        onClick={() => setOffset(offset + limit)}
+                        variant="contained"
+                      >
+                        Next
+                      </Button>
+                    )
+                    : <div />}
               </div>
             </div>
           )

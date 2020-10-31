@@ -30,3 +30,10 @@
 - Move types into interfaces file
 - Use sass or css modules instead of makeStyle
 - Cleanup TODOs scattered around project
+- Validate the end date is always after the start date
+
+## Bugs
+
+- Hide "Next" button if there are no more records
+- Don't show empty charts (This is happening because "sources" is being mapped over to render charts)
+  - Fix: using a multiselect dropdown for sources should fix this because then we could use "selectedSources"
