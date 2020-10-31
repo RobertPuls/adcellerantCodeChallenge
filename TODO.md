@@ -33,9 +33,12 @@
 - Validate the end date is always after the start date
 - Make docker profiles for local dev.
   - For local dev share npm packages, could also make everything build at once instead of one at a time like docker compose.
+- Make architecture diagram
+- Make roadmap
 
 ## Bugs
 
 - Hide "Next" button if there are no more records
 - Don't show empty charts (This is happening because "sources" is being mapped over to render charts)
   - Fix: using a multiselect dropdown for sources should fix this because then we could use "selectedSources"
+- Bars in charts should be bigger if there is only few selected products
