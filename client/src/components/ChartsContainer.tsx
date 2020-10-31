@@ -32,17 +32,15 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem 0',
   },
 }));
-// TODO breakup props
-const ChartsContainer = (props: Props) => {
-  const {
-    sources,
-    products,
-    selectedSource,
-    selectedProduct,
-    selectedStartDate,
-    selectedEndDate,
-  } = props;
 
+const ChartsContainer = ({
+  sources,
+  products,
+  selectedSource,
+  selectedProduct,
+  selectedStartDate,
+  selectedEndDate,
+}: Props) => {
   const classes = useStyles();
 
   const [adDataBySource, setAdDataBySource] = useState<AdDataByKey>({});

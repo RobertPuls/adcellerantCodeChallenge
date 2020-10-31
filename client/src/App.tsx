@@ -1,5 +1,4 @@
 // TODO: add types to everything
-// TODO: fix this
 // eslint-disable-next-line no-use-before-define
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import Button from '@material-ui/core/Button';
@@ -42,7 +41,6 @@ const useStyles = makeStyles({
   },
 });
 
-// TODO: check scoping on all functions
 const App = () => {
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedProduct, setSelectedProduct] = useState('');

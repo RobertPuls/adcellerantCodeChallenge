@@ -30,6 +30,22 @@ const resolvers = {
         $lt: new Date(endDate),
       },
     }),
+    adDataByAllPag: (_, {
+      startDate,
+      endDate,
+      sortBy,
+      offset,
+      limit,
+      ...queryParams
+    }) => AdDataEntry.find({
+      ...queryParams,
+      date: {
+        $gte: new Date(startDate),
+        $lt: getTommorow(endDate),
+      },
+    }).skip(offset).limit(limit)
+      .sort(sortByOrder(sortBy))
+      .exec(),
     adDataByAll: (_, {
       startDate,
       endDate,
@@ -41,7 +57,8 @@ const resolvers = {
         $gte: new Date(startDate),
         $lt: getTommorow(endDate),
       },
-    }).sort(sortByOrder(sortBy)).exec(),
+    }).sort(sortByOrder(sortBy))
+      .exec(),
     getSourceData: () => SourceDataEntry.find().sort({ source: 1 }),
     // getSourceData: async () => {
     //   const sources = await SourceDataEntry.find();

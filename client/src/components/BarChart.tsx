@@ -16,7 +16,7 @@ interface Props {
   products: string[];
   adData: AdData[];
 }
-// TODO: remove all from sources and props
+
 const BarChart = ({ dateRange, products, adData }: Props) => {
   const [adDataByDate, setAdDataByDate] = useState<AdDataByKey>({});
   const [graphData, setGraphData] = useState({});
