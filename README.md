@@ -53,3 +53,5 @@ Local development: Remove the data files after the first startup or you will get
 - [Docker](https://www.docker.com/)
 - [MongoDB](https://www.mongodb.com/)
 - [MongooseJS](https://mongoosejs.com/docs/)
+
+[TODOs](./TODO.md)
