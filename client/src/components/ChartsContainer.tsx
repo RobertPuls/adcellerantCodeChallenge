@@ -1,54 +1,54 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-use-before-define
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import BarChart from './BarChart';
 import queryBuilder from '../util/queryBuilder';
 import fetcher from '../util/fetcher';
-import { isValidDate } from '../util/helpers';
-
-interface AdData {
-  date: string;
-  source: string;
-  product: string;
-  clicks: number;
-  id: string;
-}
-
-interface AdDataBySource {
-  [source: string]: AdData[];
-}
+import {
+  buildAdDataByKey,
+  getDates,
+  isValidDate,
+  formatDate,
+} from '../util/helpers';
+import { AdDataByKey, AdData } from '../interfaces';
 
 interface Props {
   sources: string[];
+  products: string[];
   selectedSource: string;
   selectedProduct: string;
   selectedEndDate: string;
   selectedStartDate: string;
 }
 
+const useStyles = makeStyles((theme) => ({
+  chartWrapper: {
+    display: 'flex',
+    'flex-direction': 'column',
+    'align-items': 'center',
+    'border-bottom': '1px solid lightgray',
+    margin: '1rem 0',
+    padding: '1rem 0',
+  },
+}));
+// TODO breakup props
 const ChartsContainer = (props: Props) => {
   const {
     sources,
+    products,
     selectedSource,
     selectedProduct,
     selectedStartDate,
     selectedEndDate,
   } = props;
 
-  const [clickDataBySource, setClickDataBySource] = useState({});
-  // TODO restructure how data is returned from api so you don't have to do this here
-  const buildClickDataBySource = (clickData: AdData[]) => {
-    const adDataBySource: AdDataBySource = {};
-    sources.forEach((source: string) => {
-      adDataBySource[source] = clickData.filter((adData: AdData) => adData.source === source);
-    });
-    // Data right here
-    console.log('adDataBySource', adDataBySource);
-    setClickDataBySource(adDataBySource);
-  };
+  const classes = useStyles();
 
-  // TODO: Make another endpoint on backend to hanle this better
-  const getClickDataBySource = async () => {
-    console.log('selectedProduct', selectedProduct);
+  const [adDataBySource, setAdDataBySource] = useState<AdDataByKey>({});
+  const [dateRange, setDateRange] = useState(['']);
+
+  const getAdDataBySource = async () => {
     const query = queryBuilder({
       selectedSource,
       selectedProduct,
@@ -56,19 +56,41 @@ const ChartsContainer = (props: Props) => {
       selectedStartDate,
       sortBy: 'Date',
     });
-    const adData = await fetcher(query);
-    buildClickDataBySource(adData.adDataByAll);
-    // Data wrong here
-    console.log('clickDataBySource', clickDataBySource);
+    const rawAdData = await fetcher(query);
+    rawAdData.adDataByAll.forEach((adData: AdData) => {
+      // eslint-disable-next-line no-param-reassign
+      adData.date = formatDate(adData.date);
+    });
+    setAdDataBySource(
+      buildAdDataByKey(sources, rawAdData.adDataByAll, 'source'),
+    );
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isValidDate(selectedStartDate) && isValidDate(selectedEndDate)) {
-      getClickDataBySource();
+      getAdDataBySource();
+      setDateRange(getDates(new Date(selectedStartDate), new Date(selectedEndDate)));
     }
-  }, [props]);
+  }, [selectedEndDate, selectedStartDate, selectedSource, selectedProduct]);
 
-  return (<div />);
+  return (
+    <div id="charts-by-source">
+      {Object.keys(adDataBySource).length !== 0
+      && adDataBySource.constructor === Object
+        ? sources.slice(1).map((source: string) => (
+          <div className={classes.chartWrapper}>
+            <label htmlFor="BarChar">{source}</label>
+            <BarChart
+              dateRange={dateRange}
+              // filter((source) => source !== 'All') is more sure, but .slice(1) avoids nested loop
+              products={products.slice(1)}
+              adData={adDataBySource[source]}
+            />
+          </div>
+        ))
+        : []}
+    </div>
+  );
 };
 
 export default ChartsContainer;

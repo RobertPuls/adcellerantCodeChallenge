@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import DropDown from './DropDown';
-import sortByOptions from '../consts';
+import { sortByOptions } from '../consts';
 
 interface Props {
   selectedSource: string;

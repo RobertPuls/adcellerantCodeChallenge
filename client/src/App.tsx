@@ -109,6 +109,7 @@ const App = () => {
           : (
             <ChartsContainer
               sources={sources}
+              products={products}
               selectedEndDate={selectedEndDate}
               selectedProduct={selectedProduct}
               selectedSource={selectedSource}
