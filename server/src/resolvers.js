@@ -1,7 +1,7 @@
 const AdDataEntry = require('./models/adDataEntry');
 const ProductDataEntry = require('./models/productDataEnrty');
 const SourceDataEntry = require('./models/sourceDataEntry');
-const sortByOrder = require('./utils/sortByOrder');
+const { sortByOrder, getTommorow } = require('./utils/utils');
 
 // Provide resolver functions for your schema fields
 const resolvers = {
@@ -39,7 +39,7 @@ const resolvers = {
       ...queryParams,
       date: {
         $gte: new Date(startDate),
-        $lt: new Date(endDate),
+        $lt: getTommorow(endDate),
       },
     }).sort(sortByOrder(sortBy)).exec(),
     getSourceData: () => SourceDataEntry.find().sort({ source: 1 }),
